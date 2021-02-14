@@ -16,7 +16,7 @@ module.exports = {
 
     validateLanguage: function(input) {
         /* ENGLISH or SWEDISH */
-        return (input === 'ENGLISH' || input === 'SWEDISH');
+        return (input.toUpperCase() === 'ENGLISH' || input.toUpperCase() === 'SWEDISH');
     }
 };
 

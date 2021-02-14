@@ -52,13 +52,19 @@ app.post('/ninja', (req, res) => {
 
 
     if (speeds) {
-        if (!validators.validateSpeeds(speeds)) res.status(500).send('invalid speed parameter');
+        if (!validators.validateSpeeds(speeds)) {
+            res.status(500).send('invalid speed parameter');
+            return;
+        }
         options.push('-s');
         options.push(speeds);
     }
 
     if (wordlimit) {
-        if (!validators.validateWordLimit(wordlimit)) res.status(500).send('invalid wordlimit parameter');
+        if (!validators.validateWordLimit(wordlimit)) {
+            res.status(500).send('invalid wordlimit parameter');
+            return;
+        }
         options.push('-l');
         options.push(wordlimit);
     }
@@ -67,19 +73,26 @@ app.post('/ninja', (req, res) => {
     if (tone) options.push('--tone');
 
     if (extra) {
-        if (!validators.validateExtra(extra)) res.status(500).send('invalid extra parameter');
+        if (!validators.validateExtra(extra)) {
+            res.status(500).send('invalid extra parameter');
+            return;
+        }
         options.push('-x');
         options.push(extra);
     }
 
     if (lang) {
-        if (!validators.validateLanguage(lang)) res.status(500).send('invalid language parameter');
+        if (!validators.validateLanguage(lang)) {
+            res.status(500).send('invalid language parameter');
+            return;
+        }
         options.push('-l');
         options.push(lang);
     }
 
+    command += options.join(' ');
     console.log(req.body);
-    console.log(command + options.join(' '));
+    console.log(command);
 
     // kick off perl script and return a "completed" page
     exec(command, (error, stdout, stderr) => {
@@ -87,11 +100,11 @@ app.post('/ninja', (req, res) => {
           console.error(`exec error: ${error}`);
           return;
         }
-        console.log(`stdout: ${stdout}`);
-        console.error(`stderr: ${stderr}`);
+        console.log(`exec stdout: ${stdout}`);
+        console.error(`exec stderr: ${stderr}`);
       });
 
-    res.sendStatus(200);
+    res.status(200).send(command);
 });
 
 // serve local static content from the public folder
@@ -106,3 +119,4 @@ function writeInputToTemp(input) {
     fs.writeFileSync(temp, input);
     return temp;
 }
+
