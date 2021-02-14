@@ -1,0 +1,67 @@
+<html>
+
+<head>
+    <script src="/ninja.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css"
+        integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div class="header">
+    <h1>Morse Code Shinobi</h1>
+    <h2>Generate bespoke morse code audio files.</h2>
+</div>
+    <!--form action="/ninja" method="POST" class="pure-form pure-form-aligned" onsubmit="return sendForm(this)"-->
+    <form action="/ninja" method="POST" class="pure-form pure-form-aligned">
+        <fieldset>
+            <div class="pure-control-group">
+                <label for="aligned-name">Source</label>
+                <textarea name="source" class="pure-input-1-3" rows="5" type="text" id="aligned-name" required=""
+                    placeholder="Input script"></textarea>
+                <span class="pure-form-message-inline">This is a required field.</span>
+            </div>
+            <div class="pure-control-group">
+                <label for="aligned-speeds">Speeds</label>
+                <input name="speeds" type="text" id="aligned-speeds" placeholder="Speeds in WPM" />
+            </div>
+            <div class="pure-control-group">
+                <label for="aligned-limit">Word Limit</label>
+                <input name="wordlimit" type="text" id="aligned-limit" placeholder="Word limit for long sentences" />
+            </div>
+            <div class="pure-control-group">
+                <label for="aligned-extra">Extra Space</label>
+                <input name="extra" type="text" id="aligned-extra" placeholder="Extra word spacing" />
+            </div>
+            <div class="pure-controls">
+                <label for="aligned-test" class="pure-checkbox">
+                    <input name="test" type="checkbox" id="aligned-test" /> Do NOT render audio</label>
+                <label for="aligned-repeat" class="pure-checkbox">
+                    <input name="repeat" type="checkbox" id="aligned-repeat" /> Repeat morse</label>
+                <label for="aligned-tone" class="pure-checkbox">
+                    <input name="tone" type="checkbox" id="aligned-tone" /> Courtesy tone</label>
+                <label for="aligned-sil1" class="pure-checkbox">
+                    <input name="sil1" type="checkbox" id="aligned-sil1" /> Slience between morse and voice</label>
+                <label for="aligned-sil2" class="pure-checkbox">
+                    <input name="sil2" type="checkbox" id="aligned-sil2" /> Silence between sets</label>
+                <label for="aligned-sil3" class="pure-checkbox">
+                    <input name="sil3" type="checkbox" id="aligned-sil3" /> Silence between voice and repeat</label>
+                <label for="lang">Language</label>
+                <select name="lang" id="lang">
+                    <option>English</option>
+                    <option>Swedish</option>
+                </select>
+                <label for="engine">TTS engine</label>
+                <select name="engine" id="engine">
+                    <option>neural</option>
+                    <option>standard</option>
+                </select>
+            </div>
+            <div class="pure-controls">
+                <button type="submit" class="pure-button pure-button-primary">Submit</button>
+            </div>
+        </fieldset>
+    </form>
+</body>
+
+</html>
