@@ -95,7 +95,7 @@ app.post('/ninja', (req, res) => {
     console.log(command);
 
     // kick off perl script and return a "completed" page
-    exec(command, (error, stdout, stderr) => {
+    exec(command, {maxBuffer: 1024 * 1024 * 5}, (error, stdout, stderr) => {
         if (error) {
           console.error(`exec error: ${error}`);
           return;
