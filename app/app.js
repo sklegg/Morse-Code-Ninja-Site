@@ -90,12 +90,14 @@ app.post('/ninja', (req, res) => {
         options.push(lang);
     }
 
+    options.push('--cloud');
+
     command += options.join(' ');
     console.log(req.body);
     console.log(command);
 
     // kick off perl script and return a "completed" page
-    exec(command, {maxBuffer: 1024 * 1024 * 5}, (error, stdout, stderr) => {
+    exec(command, {maxBuffer: 1024 * 1024 * 2}, (error, stdout, stderr) => {
         if (error) {
           console.error(`exec error: ${error}`);
           return;
