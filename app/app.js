@@ -27,7 +27,7 @@ app.get('/touch', (req, res) => {
 });
 
 app.post('/ninja', (req, res) => {
-    var command = 'perl /opt/Morse-Code-Ninja-main/render.pl ';
+    var command = 'perl /opt/ninja/render.pl ';
     var options = [];
     var input = req.body.source;
     var speeds = req.body.speeds;
@@ -48,7 +48,7 @@ app.post('/ninja', (req, res) => {
     options.push(tempFileName);
 
     options.push('-o');
-    options.push('../../../tmp/' + tempFileName.split('/')[2]); // how do I get temp dir out of tempFileName?
+    options.push('../../tmp/' + tempFileName.split('/')[2]); // how do I get temp dir out of tempFileName?
 
 
     if (speeds) {
@@ -90,6 +90,7 @@ app.post('/ninja', (req, res) => {
         options.push(lang);
     }
 
+    // we are running this in the docker/cloud env so push result to S3 and publish a message to SNS
     options.push('--cloud');
 
     command += options.join(' ');
@@ -97,16 +98,17 @@ app.post('/ninja', (req, res) => {
     console.log(command);
 
     // kick off perl script and return a "completed" page
-    exec(command, {maxBuffer: 1024 * 1024 * 2}, (error, stdout, stderr) => {
+    exec(command, {maxBuffer: 1024 * 1024 * 2, cwd: '/opt/ninja/'}, (error, stdout, stderr) => {
         if (error) {
           console.error(`exec error: ${error}`);
           return;
         }
         console.log(`exec stdout: ${stdout}`);
         console.error(`exec stderr: ${stderr}`);
-      });
+    });
 
-    res.status(200).send(command);
+    // at some point can we route to a confirmation page?
+    res.sendStatus(200);
 });
 
 // serve local static content from the public folder
