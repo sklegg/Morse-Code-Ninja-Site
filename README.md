@@ -1,1 +1,1 @@
-This is a web front-end for the [Morse Code Ninja render script](https://github.com/zoglmannk/Morse-Code-Ninja) by Kurt Zoglmann.
+This is a web front-end for the [Morse Code Ninja render script](https://github.com/zoglmannk/Morse-Code-Ninja) by Kurt Zoglmann. It works best when deployed inside [this Docker image](https://github.com/sklegg/Morse-Code-Ninja-Docker).
