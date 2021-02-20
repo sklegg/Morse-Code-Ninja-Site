@@ -27,7 +27,7 @@ def get_aws_creds():
         except IOError as e:
             print(f"I/O error reading aws.properties: {e.errno}, {e.strerror}")
 
-            print("text2speech script does not have AWS credentials.")
+            print("finish script does not have AWS credentials.")
 
     return aws_properties
 
@@ -65,10 +65,8 @@ creds = get_aws_creds()
 prefix = int(time.time())
 s3_client = boto3.client('s3', aws_access_key_id=creds['aws_access_key_id'], aws_secret_access_key=creds['aws_secret_access_key'])
 input_directory = os.listdir(sys.argv[1])
-print(input_directory)
 mp3_file_pattern = "*.mp3"
 for mp3_file in input_directory:
-    print(mp3_file)
     if fnmatch.fnmatch(mp3_file, mp3_file_pattern):
         upload_file_to_s3(s3_client, sys.argv[1] + '/' + mp3_file, creds['bucket_name'], mp3_file, prefix)
 
@@ -76,4 +74,3 @@ for mp3_file in input_directory:
 sns_client = boto3.client('sns', region_name='us-east-1', aws_access_key_id=creds['aws_access_key_id'], aws_secret_access_key=creds['aws_secret_access_key'])
 message_content = 'Your Morse Code Shinobi render is complete. ' + creds['bucket_name'] + '/' + str(prefix)
 publish(sns_client, message_content)
-
