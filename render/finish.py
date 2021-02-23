@@ -72,5 +72,5 @@ for mp3_file in input_directory:
 
 # publish message to SNS
 sns_client = boto3.client('sns', region_name='us-east-1', aws_access_key_id=creds['aws_access_key_id'], aws_secret_access_key=creds['aws_secret_access_key'])
-message_content = 'Your Morse Code Shinobi render is complete. ' + creds['bucket_name'] + '/' + str(prefix)
+message_content = 'Your Morse Code Shinobi render is complete. https://ninja.ki7l.be/view?key=' + str(prefix)
 publish(sns_client, message_content)
