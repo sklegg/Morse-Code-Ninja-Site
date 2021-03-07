@@ -12,6 +12,10 @@ from botocore.exceptions import ClientError
 def get_aws_creds():
     aws_properties = {}
 
+    aws_properties['aws_session_token'] = None
+    if "AWS_SESSION_TOKEN" in environ:
+        aws_properties['aws_session_token'] = environ['AWS_SESSION_TOKEN']
+
     if "AWS_KEY_ID" in environ and "AWS_SECRET_ACCESS_KEY" and "NINJA_BUCKET_NAME" in environ:
         aws_properties['aws_access_key_id'] = environ['AWS_KEY_ID']
         aws_properties['aws_secret_access_key'] = environ['AWS_SECRET_ACCESS_KEY']
@@ -63,7 +67,7 @@ creds = get_aws_creds()
 
 # upload files to S3
 prefix = int(time.time())
-s3_client = boto3.client('s3', aws_access_key_id=creds['aws_access_key_id'], aws_secret_access_key=creds['aws_secret_access_key'])
+s3_client = boto3.client('s3', aws_access_key_id=creds['aws_access_key_id'], aws_secret_access_key=creds['aws_secret_access_key'], aws_session_token=creds['aws_session_token'])
 input_directory = os.listdir(sys.argv[1])
 mp3_file_pattern = "*.mp3"
 for mp3_file in input_directory:
@@ -71,6 +75,6 @@ for mp3_file in input_directory:
         upload_file_to_s3(s3_client, sys.argv[1] + '/' + mp3_file, creds['bucket_name'], mp3_file, prefix)
 
 # publish message to SNS
-sns_client = boto3.client('sns', region_name='us-east-1', aws_access_key_id=creds['aws_access_key_id'], aws_secret_access_key=creds['aws_secret_access_key'])
+sns_client = boto3.client('sns', region_name='us-east-1', aws_access_key_id=creds['aws_access_key_id'], aws_secret_access_key=creds['aws_secret_access_key'],  aws_session_token=creds['aws_session_token'])
 message_content = 'Your Morse Code Shinobi render is complete. https://ninja.ki7l.be/view?key=' + str(prefix)
 publish(sns_client, message_content)
