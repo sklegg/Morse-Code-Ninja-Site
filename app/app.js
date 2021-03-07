@@ -18,12 +18,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 //app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-    res.send('Hello World, from express');
+    res.redirect('/index.html');
 });
 
-app.get('/touch', (req, res) => {
-    exec('perl /opt/site/touch.pl');
-    res.send('perl');
+app.get('/health', (req, res) => {
+    res.send('pong');
 });
 
 app.post('/ninja', (req, res) => {
