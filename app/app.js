@@ -23,8 +23,14 @@ app.get('/', (req, res) => {
 });
 
 app.get('/health', (req, res) => {
-    var healthResult = execSync('python /opt/ninja/health.py');
-    res.send(healthResult);
+    var healthResult = execSync('python /opt/ninja/app/health.py').toString();
+    healthResult = healthResult.trim();
+    console.log('from health check script: [' + healthResult + ']');
+    if (healthResult === '0') {
+        res.status(200).send('pass');
+    } else {
+        res.status(500).send('fail');
+    }
 });
 
 app.post('/ninja', (req, res) => {

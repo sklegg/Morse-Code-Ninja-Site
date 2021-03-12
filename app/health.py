@@ -38,9 +38,14 @@ def get_aws_creds():
 
 # make a client with the existing creds
 current_creds = get_aws_creds()
-sts = boto3.client('sts', aws_access_key_id=current_creds['aws_access_key_id'], aws_secret_access_key=current_creds['aws_secret_access_key'], aws_session_token=current_creds['aws_session_token'])
 try:
+    sts = boto3.client('sts', aws_access_key_id=current_creds['aws_access_key_id'], aws_secret_access_key=current_creds['aws_secret_access_key'], aws_session_token=current_creds['aws_session_token'])
     sts.get_caller_identity()
+    print(OK)
+    sys.exit(OK)
+except KeyError as e:
+    print(ERROR)
     sys.exit(OK)
 except botocore.exceptions.ClientError as e:
-    sys.exit(ERROR)
+    print(ERROR)
+    sys.exit(OK)
