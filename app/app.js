@@ -5,6 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const { exec } = require('child_process');
+const { execSync } = require('child_process');
 const { sep } = require('path');
 
 const validators = require('./validators');
@@ -22,7 +23,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/health', (req, res) => {
-    res.send('pong');
+    var healthResult = execSync('python /opt/ninja/health.py');
+    res.send(healthResult);
 });
 
 app.post('/ninja', (req, res) => {
