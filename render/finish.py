@@ -37,14 +37,13 @@ def get_aws_creds():
 
 
 def upload_file_to_s3(s3_client, filename, bucket, name, prefix=None):
-    print("upload")
     if prefix is not None:
         full_path = str(prefix) + "/" + name
     else:
         full_path = name
 
     try:
-        response = s3_client.upload_file(filename, bucket, full_path)
+        response = s3_client.upload_file(filename, bucket, full_path, ExtraArgs={'ACL': 'public-read'})
     except ClientError as e:
         print("An error occurred uploading " + filename)
         print(e)
